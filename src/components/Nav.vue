@@ -3,9 +3,9 @@
 
       <nav class="navbar">
         <div class="navbar-brand">
-          <a class="navbar-item" href="/">
+          <router-link to="/" class="navbar-item">
             <img class="logo" src="../assets/cohop.png" alt="Logo">
-          </a>
+          </router-link>
           <!--
       Using the v-on: directive to listen for the click event and toggle the data property showNav. Also, using the v-bind: directive to reactively update the class attribute 'is-active' based on the showNav property.
       -->
@@ -20,12 +20,12 @@
       -->
         <div class="navbar-menu" :class="{ 'is-active': showNav }">
           <div class="navbar-end">
-            <a class="navbar-item" href="/members">
+            <router-link to="/members" class="navbar-item">
               Membres
-            </a>
-            <a class="navbar-item" href="/conversations">
+            </router-link>
+            <router-link to="/conversations" class="navbar-item">
               Conversations
-            </a>
+            </router-link>
             <a class="navbar-item" @click="Logout()">
               Se Déconnecter
             </a>

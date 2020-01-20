@@ -1,10 +1,10 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Login from '../components/Login.vue'
-import Channels from '../components/Channels.vue'
 import Register from '../components/Register.vue'
 import Members from '../components/Members.vue'
 import Conversations from '../components/Conversations.vue'
+import ConvDetail from '../components/ConvDetail.vue'
 
 Vue.use(VueRouter)
 
@@ -17,7 +17,7 @@ const routes = [
   {
     path: '/',
     name: 'home',
-    component: Channels,
+    component: Conversations,
   },
   {
     path: '/register',
@@ -28,6 +28,11 @@ const routes = [
     path: '/conversations',
     name: 'Conversations',
     component: Conversations,
+  },
+  {
+    path: '/convdetail',
+    name: 'ConvDetail',
+    component: ConvDetail,
   },
   {
     path: '/members',
