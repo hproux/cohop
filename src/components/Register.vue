@@ -26,6 +26,7 @@
               <div class="control">
                 <button class="button is-primary is-medium" type="submit">Register</button>
               </div>
+              <a href="#">Vous avez déjà un compte ? Connectez-vous</a>
             </div>
           </div>
         </form>

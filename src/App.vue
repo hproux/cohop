@@ -25,7 +25,6 @@ export default {
     if(this.$store.state.token){
       axios.get("members/"+this.$store.state.id+"/signedin")
       .then((response)=>{
-        console.log(response)
       })
       .catch((error)=>{
         this.$router.push('login')

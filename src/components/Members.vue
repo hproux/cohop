@@ -1,19 +1,21 @@
 <template>
-  <div id="members" class="columns">
+  <div id="members">
     <Nav></Nav>
-    <div class="table-container column is one-quarter">
+    <div class="">
       <h1>Membres ({{members.length}} membres)</h1>
       <table class="table">
         <thead>
           <tr>
             <th>Membre</th>
             <th>Email</th>
+            <th>Supprimer</th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="member in members">
             <td>{{member.fullname}}</td>
             <td>{{member.email}}</td>
+            <td><a @click="deleteMember(member)">🗑</a></td>
           </tr>
         </tbody>
       </table>
@@ -30,6 +32,20 @@ export default {
   name: 'Members',
   props: {
     msg: String
+  },
+  methods:{
+    deleteMember : function(member){
+      axios.delete("members/"+member.id)
+      .then((response)=>{
+        axios.get('members')
+        .then((response)=>{
+          this.members = response.data
+        })
+      })
+      .catch((error)=>{
+        console.log(error)
+      })
+    }
   },
   data(){
     return {
