@@ -1,12 +1,13 @@
 <template>
   <div>
+    <Nav></Nav>
     <div id="listConversations">
       <article class="conversations panel is-info">
         <p class="panel-heading">
           Conversations
         </p>
 
-        <a v-for="conversation in this.conversations" class="panel-block">
+        <a v-for="conversation in this.conversations" @click="voirConversation(conversation)" class="panel-block">
           {{conversation.topic}}
         </a>
       </article>
@@ -37,7 +38,11 @@
 </template>
 
 <script>
+import Nav from "./Nav.vue";
 export default {
+  components: {
+    Nav,
+  },
   name: 'Conversations',
   data() {
     return {
@@ -48,6 +53,9 @@ export default {
     }
   },
   methods:{
+    voirConversation: function(param){
+      this.$router.push({ name: 'ConvDetail', params: { conversation: param } })
+    },
     creerConversation: function(){
       if(this.tags != null && this.titre !=null)
       {
@@ -58,7 +66,6 @@ export default {
           token : this.$store.state.token
         })
         .then((response)=>{
-          console.log(response)
         })
         .catch((error)=>{
           console.log(error);
@@ -77,7 +84,6 @@ export default {
   created: function(){
     axios.get('channels')
     .then((response)=>{
-      console.log(response)
       this.conversations = response.data
     })
     .catch((error)=>{
