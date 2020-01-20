@@ -23,7 +23,7 @@ new Vue({
       if(this.$store.state.token){
         config.url+='?token='+this.$store.state.token;
       }
-      return config
+      return config;
     },error => {
       return console.log(error)
     })

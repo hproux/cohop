@@ -56,7 +56,7 @@ export default {
         .then((response)=>{
           this.$store.commit("setToken",response.data.token)
           this.$store.commit("changeConnectionState")
-          this.$router.push('home')
+          this.$router.push('/')
         })
         .catch((error)=>{
           alert("L'adresse mail et le mot de passe ne correspondent pas");
