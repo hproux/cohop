@@ -18,6 +18,11 @@ export default new Vuex.Store({
     isLogged : false,
   },
   mutations: {
+    disconnect(state){
+      state.id = null;
+      state.token = null;
+      state.isLogged = false;
+    },
     setToken(state, token){
       state.token = token;
     },

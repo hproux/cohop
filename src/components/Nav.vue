@@ -26,7 +26,7 @@
             <a class="navbar-item" href="/conversations">
               Conversations
             </a>
-            <a class="navbar-item" href="/logout">
+            <a class="navbar-item" @click="Logout()">
               Se Déconnecter
             </a>
           </div>
@@ -46,6 +46,18 @@ export default {
   data() {
     return {
       showNav: false
+    }
+  },
+  methods:{
+    Logout: function(){
+      axios.delete('members/signout')
+      .then((response)=>{
+        this.$store.commit("disconnect")
+        this.$router.push('login')
+      })
+      .catch((error)=>{
+        console.log(error);
+      })
     }
   },
   props: {

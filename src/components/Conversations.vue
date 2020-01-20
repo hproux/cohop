@@ -6,11 +6,8 @@
           Conversations
         </p>
 
-        <a class="panel-block is-active">
-          bulma
-        </a>
-        <a class="panel-block">
-          marksheet
+        <a v-for="conversation in this.conversations" class="panel-block">
+          {{conversation.topic}}
         </a>
       </article>
       <div>
@@ -42,9 +39,33 @@
 <script>
 export default {
   name: 'Conversations',
+  data() {
+    return {
+      titre : null,
+      tags : null,
+      conversations : null,
+      isModalShow : false,
+    }
+  },
   methods:{
     creerConversation: function(){
-      this.isModalShow = false
+      if(this.tags != null && this.titre !=null)
+      {
+        this.isModalShow = false
+        axios.post('channels',{
+          label : this.tags,
+          topic : this.titre,
+          token : this.$store.state.token
+        })
+        .then((response)=>{
+          console.log(response)
+        })
+        .catch((error)=>{
+          console.log(error);
+        })
+      }else {
+        alert('Les champs ne sont pas correctement remplis!')
+      }
     },
     afficherAjoutConv: function(){
       this.isModalShow = true
@@ -53,21 +74,15 @@ export default {
       this.isModalShow = false
     },
   },
-  data(){
-    return{
-      tags : null,
-      titre : null,
-      isModalShow : false,
-    }
-  },
   created: function(){
-    /*axios.get('channels')
+    axios.get('channels')
     .then((response)=>{
       console.log(response)
+      this.conversations = response.data
     })
     .catch((error)=>{
       console.log(error);
-    })*/
+    })
   },
 }
 </script>
