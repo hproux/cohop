@@ -21,7 +21,7 @@ new Vue({
   beforeCreate(){
     window.axios.interceptors.request.use((config)=>{
       if(this.$store.state.token){
-        config.url+='?token='+$store.state.token;
+        config.url+='?token='+this.$store.state.token;
       }
       return config
     },error => {

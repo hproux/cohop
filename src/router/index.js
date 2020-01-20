@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Login from '../components/Login.vue'
 import Channels from '../components/Channels.vue'
 import Register from '../components/Register.vue'
+import Members from '../components/Members.vue'
 
 Vue.use(VueRouter)
 
@@ -21,6 +22,11 @@ const routes = [
     path: '/register',
     name: 'register',
     component: Register,
+  },
+  {
+    path: '/members',
+    name: 'members',
+    component: Members
   },
 
 ]
