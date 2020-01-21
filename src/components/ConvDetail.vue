@@ -58,10 +58,10 @@ export default {
     }
   },
   created: function(){
-    if(this.id==null){
-      if(this.$route.params){
-        this.id = this.$route.params.conversation.id;
-        this.titre = this.$route.params.conversation.topic;
+    if(this.$router.state.idConversation==null){
+      if(this.$route.params.conversation){
+        this.$store.commit("setIdConv",this.$route.params.conversation.id);
+        this.$store.commit("setTitreConversation",this.$route.params.conversation.topic;
       }else{
         this.$router.push('/');
       }
