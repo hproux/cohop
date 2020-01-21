@@ -6,6 +6,7 @@
         <article class="conversations panel is-info">
           <p class="panel-heading">
             {{titre}}
+			<a class="supprConv button is-danger is-light" @click="supprimerConversation()">Supprimer la conversation</a>
           </p>
           <div class="panel-block">
             <input name="sendMessage" v-model='sendMessage' class="input" type="text" placeholder="Message...">
@@ -14,6 +15,12 @@
         </div>
         <a v-for="message in messages" class="panel-block">
           {{message.message}}
+		  <button class="button is-warning is-small is-rounded is-outlined">
+				<span>Modifier</span>
+			 </button>
+		    <button @click="supprimerMessage(message)" class="button is-danger is-small is-rounded is-outlined">
+				<span>Supprimer</span>
+			 </button>
         </a>
       </article>
     </div>
@@ -30,13 +37,40 @@ export default {
   name: 'ConvDetail',
   data() {
     return {
-      id : null,
-      titre : null,
+	  titre : null,
+	  tags : null,
+	  id : null,
       messages : [],
       sendMessage : null,
     }
   },
   methods:{
+	supprimerConversation:function(){
+		axios.delete('channels/'+this.id)
+        .then((response)=>{
+			this.$router.push('/');
+        })
+        .catch((error)=>{
+          console.log(error);
+        })
+	},
+	supprimerMessage:function(msg){
+			console.log(msg);
+		axios.delete('channels/'+this.id+'/posts/'+msg.id)
+        .then((response)=>{
+					axios.get('channels/'+this.id+'/posts')
+		.then((response)=>{
+		
+		this.messages = response.data;
+		})
+		.catch((error)=>{
+		  console.log(error);
+		})
+        })
+        .catch((error)=>{
+          console.log(error);
+        })
+	},
     envoyerMessage:function(){
       if(this.sendMessage != null){
         axios.post('channels/'+this.id+'/posts',{
@@ -47,7 +81,13 @@ export default {
         })
         .then((response)=>{
           this.sendMessage = null;
-          console.log(response)
+		  axios.get('channels/'+this.id+'/posts')
+			.then((response)=>{
+			  this.messages = response.data;
+			})
+			.catch((error)=>{
+			  console.log(error);
+			})
         })
         .catch((error)=>{
           console.log(error);
@@ -58,30 +98,34 @@ export default {
     }
   },
   created: function(){
-    if(this.$router.state.idConversation==null){
-      if(this.$route.params.conversation){
-        this.$store.commit("setIdConv",this.$route.params.conversation.id);
-        this.$store.commit("setTitreConversation",this.$route.params.conversation.topic;
-      }else{
-        this.$router.push('/');
-      }
-    }
+	if(this.$route.query.titre!=undefined && this.$route.query.id!=undefined){
+		this.titre = this.$route.query.titre;
+		this.id = this.$route.query.id;
+		axios.get('channels/'+this.id+'/posts')
+		.then((response)=>{
+		/*if(response.data.length==0){
+			this.$router.push('/');	
+		}*/
+		
+		this.messages = response.data;
+		})
+		.catch((error)=>{
+		  console.log(error);
+		})
+	}else{
+		this.$router.push('/');
+	}
 
-    axios.get('channels/'+this.id+'/posts')
-    .then((response)=>{
-      console.log(response)
-      this.messages = response.data
-
-    })
-    .catch((error)=>{
-      console.log(error);
-    })
   },
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+ .supprConv{
+	  height : 2em;
+	 margin-left:1%;
+  }
   .button{
     margin-left:1%;
   }

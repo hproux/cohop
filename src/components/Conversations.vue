@@ -9,7 +9,7 @@
 
         <a v-for="conversation in this.conversations" @click="voirConversation(conversation)" class="panel-block">
           {{conversation.topic}}
-        </a>
+		</a>
       </article>
       <div>
         <button @click="afficherAjoutConv()" class="ajoutConv button is-info is-light">+ Ajouter une conversation</button>
@@ -54,7 +54,7 @@ export default {
   },
   methods:{
     voirConversation: function(param){
-      this.$router.push({ name: 'ConvDetail', params: { conversation: param } })
+      this.$router.push({ name: 'ConvDetail', query: { titre: param.topic, id : param.id}})
     },
     creerConversation: function(){
       if(this.tags != null && this.titre !=null)
@@ -66,6 +66,13 @@ export default {
           token : this.$store.state.token
         })
         .then((response)=>{
+			axios.get('channels')
+				.then((response)=>{
+				  this.conversations = response.data
+				})
+				.catch((error)=>{
+				  console.log(error);
+				})
         })
         .catch((error)=>{
           console.log(error);
@@ -95,7 +102,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
+  
   .titre{
       margin-bottom:3%;
   }

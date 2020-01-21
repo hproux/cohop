@@ -16,20 +16,12 @@ export default new Vuex.Store({
     id : null,
     token : null,
     isLogged : false,
-    idConversation : null,
-    titreConversation : null,
   },
   mutations: {
     disconnect(state){
       state.id = null;
       state.token = null;
       state.isLogged = false;
-    },
-    setTitreConversation(state, param){
-      state.titreConversation = param
-    },
-    setIdConv(state, param){
-      state.idConversation = param
     },
     setToken(state, token){
       state.token = token;
