@@ -12,9 +12,7 @@ export default {
     Login,
   },
   mounted(){
-    if(!this.loggedMember){
-      this.$router.push('login');
-    }
+
   },
   computed: {
     loggedMember: function () {
@@ -29,10 +27,7 @@ export default {
       .catch((error)=>{
         this.$router.push('login')
       })
-    }else{
-      this.$router.push('login')
-    }
-
+      }
   }
 
 }

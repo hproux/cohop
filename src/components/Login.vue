@@ -24,8 +24,12 @@
                   <button class="button is-success">
                     Login
                   </button>
+                  <div class="register">
+                    <a href="/register">S'enregistrer</a>
+                  </div>
                 </div>
               </form>
+
             </div>
           </div>
         </div>
@@ -74,4 +78,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
+.register{
+  margin-top:5%;
+}
 </style>

@@ -24,9 +24,9 @@
             </div>
             <div class="field is-grouped">
               <div class="control">
-                <button class="button is-primary is-medium" type="submit">Register</button>
+                <button class="buttonRegister button is-primary is-medium" type="submit">Register</button>
               </div>
-              <a href="#">Vous avez déjà un compte ? Connectez-vous</a>
+              <a class="loginRef" href="/">Vous avez déjà un compte ? Connectez-vous</a>
             </div>
           </div>
         </form>
@@ -70,6 +70,12 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.buttonRegister{
+  height:2em;
+}
+.loginRef{
+  margin-top:1%;
+}
   .column {
     padding-top: 0 !important;
     padding-bottom: 0 !important;
