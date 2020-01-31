@@ -24,8 +24,8 @@
             <button @click="fermerModal()" class="delete" aria-label="close"></button>
           </header>
           <section class="modal-card-body">
-            <input type="text" v-model='titre' name="titre" placeholder="Titre..." class="titre input" required>
-            <input type="text" v-model='tags' name="tags" placeholder="Tags..." class="input" required>
+            <input @keyup.enter="creerConversation()" type="text" v-model='titre' name="titre" placeholder="Titre..." class="titre input" required>
+            <input @keyup.enter="creerConversation()" type="text" v-model='tags' name="tags" placeholder="Tags..." class="input" required>
           </section>
           <footer class="modal-card-foot">
             <button @click="creerConversation()" class="button is-success">Créer la conversation</button>
@@ -54,7 +54,8 @@ export default {
   },
   methods:{
     voirConversation: function(param){
-      this.$router.push({ name: 'ConvDetail', query: { titre: param.topic, id : param.id}})
+      console.log(param)
+      this.$router.push({ name: 'ConvDetail', query: { titre: param.topic, id : param.id, tags : param.label}})
     },
     creerConversation: function(){
       if(this.tags != null && this.titre !=null)
@@ -102,7 +103,9 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  
+.button{
+  margin-left:1%;
+}
   .titre{
       margin-bottom:3%;
   }
