@@ -15,7 +15,8 @@
           </p>
         </div>
         <a v-for="message in messages" class="panel-block messageBox">
-          <p class="nomMember tag is-light">{{getName(message)}}</p>{{message.message}}
+          <router-link :to="{ name: 'member', params: {id:message.member_id}}"><p class="nomMember tag is-light">{{getName(message)}}</p></router-link>
+          {{message.message}}
           <button v-if="isOwner(message)" @click="afficherModal(message)" class="button is-warning is-small is-rounded is-outlined">
             <span>Modifier</span>
           </button>
@@ -93,6 +94,9 @@
       }
     },
     methods:{
+      seeMemberProfile:function(memberId){
+        this.$router.push('/members/'+memberId);
+      },
       isOwner:function(member){
         if(member.member_id==this.$store.state.idMember){
           return true;
@@ -217,9 +221,11 @@
         this.id = this.$route.query.id;
         axios.get('channels/'+this.id+'/posts')
         .then((response)=>{
+          console.log(response);
           this.messages = response.data;
         })
         .catch((error)=>{
+          this.$router.push('/');
           console.log(error);
         })
       }else{
@@ -233,11 +239,11 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
   .nomMember{
-    margin-right: 1%;
+    margin-right: 5%;
   }
 
   .panelConv{
-    padding-bottom: 3%;
+    padding-bottom: 2%;
   }
   .messageBox{
     overflow: auto;
