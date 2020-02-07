@@ -15,7 +15,7 @@
           </p>
         </div>
         <a v-for="message in messages" class="panel-block messageBox">
-          {{message.message}}
+          <p class="nomMember tag is-light">{{getName(message)}}</p>{{message.message}}
           <button @click="afficherModal(message)" class="button is-warning is-small is-rounded is-outlined">
             <span>Modifier</span>
           </button>
@@ -67,103 +67,61 @@
 </template>
 
 <script>
-import Nav from "./Nav.vue";
-export default {
-  components: {
-    Nav,
-  },
-  name: 'ConvDetail',
-  data() {
-    return {
-      titre : null,
-      tags : null,
-      id : null,
-      messages : [],
-      sendMessage : null,
-      isModalShow : false,
-      isModalModifShow : false,
-      currentmessage : null,
-      messageModif : null,
-    }
-  },
-  methods:{
-    afficherModalConversation : function(){
-      this.isModalModifShow = true;
+  import Nav from "./Nav.vue";
+  export default {
+    components: {
+      Nav,
     },
-    modifConversation : function(){
-      axios.put('channels/'+this.id,{
-        label : this.tags,
-        topic : this.titre,
-      })
-      .then((response)=>{
-        console.log(response)
-        this.isModalModifShow = false
-      })
-      .catch((error)=>{
-        console.log(error);
-      })
-    },
-    supprimerConversation:function(){
-      if ( !confirm( "Voulez-vous vraiment supprimer la conversation?" ) ) {
-        return;
+    name: 'ConvDetail',
+    data() {
+      return {
+        titre : null,
+        tags : null,
+        id : null,
+        messages : [],
+        sendMessage : null,
+        isModalShow : false,
+        isModalModifShow : false,
+        currentmessage : null,
+        messageModif : null,
       }
-      axios.delete('channels/'+this.id)
-      .then((response)=>{
-        this.$router.push('/');
-      })
-      .catch((error)=>{
-        console.log(error);
-      })
     },
-    modifierMessage : function(){
-      axios.put('channels/'+this.id+'/posts/'+this.currentmessage.id,{
-        message : this.messageModif,
-      })
-      .then((response)=>{
-        axios.get('channels/'+this.id+'/posts') //On recharge les messages
+    methods:{
+      afficherModalConversation : function(){
+        this.isModalModifShow = true;
+      },
+      modifConversation : function(){
+        axios.put('channels/'+this.id,{
+          label : this.tags,
+          topic : this.titre,
+        })
         .then((response)=>{
-          this.messages = response.data;
+          console.log(response)
+          this.isModalModifShow = false
         })
         .catch((error)=>{
           console.log(error);
         })
-      })
-      .catch((error)=>{
-        console.log(error);
-      })
-      this.isModalShow = false;
-    },
-    supprimerMessage:function(msg){
-      if ( !confirm( "Voulez-vous vraiment supprimer ce message?" ) ) {
-        return;
-      }
-      console.log(msg);
-      axios.delete('channels/'+this.id+'/posts/'+msg.id)
-      .then((response)=>{
-        axios.get('channels/'+this.id+'/posts')
+      },
+      supprimerConversation:function(){
+        if ( !confirm( "Voulez-vous vraiment supprimer la conversation?" ) ) {
+          return;
+        }
+        axios.delete('channels/'+this.id)
         .then((response)=>{
-
-          this.messages = response.data;
+          this.$router.push('/');
         })
         .catch((error)=>{
           console.log(error);
         })
-      })
-      .catch((error)=>{
-        console.log(error);
-      })
-    },
-    envoyerMessage:function(){
-      if(this.sendMessage != null){
-        axios.post('channels/'+this.id+'/posts',{
-          channel_id : this.id,
-          member_id : this.$store.state.id,
-          message : this.sendMessage,
-          token : this.$store.state.token
+      },
+      modifierMessage : function(){
+        console.log(this.currentmessage);
+        axios.put('channels/'+this.id+'/posts/'+this.currentmessage.id,{
+          message : this.messageModif,
         })
         .then((response)=>{
-          this.sendMessage = null;
-          axios.get('channels/'+this.id+'/posts')
+          axios.get('channels/'+this.id+'/posts') //On recharge les messages
           .then((response)=>{
             this.messages = response.data;
           })
@@ -174,54 +132,100 @@ export default {
         .catch((error)=>{
           console.log(error);
         })
+        this.isModalShow = false;
+      },
+      supprimerMessage:function(msg){
+        if ( !confirm( "Voulez-vous vraiment supprimer ce message?" ) ) {
+          return;
+        }
+        console.log(msg);
+        axios.delete('channels/'+this.id+'/posts/'+msg.id)
+        .then((response)=>{
+          axios.get('channels/'+this.id+'/posts')
+          .then((response)=>{
+
+            this.messages = response.data;
+          })
+          .catch((error)=>{
+            console.log(error);
+          })
+        })
+        .catch((error)=>{
+          console.log(error);
+        })
+      },
+      envoyerMessage:function(){
+        if(this.sendMessage != null){
+          axios.post('channels/'+this.id+'/posts',{
+            channel_id : this.id,
+            member_id : this.$store.state.id,
+            message : this.sendMessage,
+            token : this.$store.state.token
+          })
+          .then((response)=>{
+            this.sendMessage = null;
+            axios.get('channels/'+this.id+'/posts')
+            .then((response)=>{
+              this.messages = response.data;
+            })
+            .catch((error)=>{
+              console.log(error);
+            })
+          })
+          .catch((error)=>{
+            console.log(error);
+          })
+        }else{
+          alert('Aucun message inséré');
+        }
+      },
+      afficherModal:function(msg){
+        this.isModalShow = true;
+        this.currentmessage = msg;
+        this.messageModif = this.currentmessage.message;
+      },
+      afficherModalModif:function(){
+        this.isModalModifShow = true;
+      },
+      fermerModal: function(){
+        this.isModalShow = false
+      },
+      fermerModalModif: function(){
+        this.isModalModifShow = false
+      },
+      getName:function(memberId){
+          return this.$store.state.members.find(elem => elem.id === memberId.member_id).fullname;
+      },
+    },
+    created: function(){
+      if(this.$route.query.titre!=undefined && this.$route.query.id!=undefined){
+        this.titre = this.$route.query.titre;
+        this.tags = this.$route.query.tags;
+        this.id = this.$route.query.id;
+        axios.get('channels/'+this.id+'/posts')
+        .then((response)=>{
+          this.messages = response.data;
+        })
+        .catch((error)=>{
+          console.log(error);
+        })
       }else{
-        alert('Aucun message inséré');
-      }
-    },
-    afficherModal:function(msg){
-      this.isModalShow = true;
-      this.currentmessage = msg;
-      this.messageModif = this.currentmessage.message;
-    },
-    afficherModalModif:function(){
-      this.isModalModifShow = true;
-    },
-    fermerModal: function(){
-      this.isModalShow = false
-    },
-    fermerModalModif: function(){
-      this.isModalModifShow = false
-    },
-  },
-  created: function(){
-    if(this.$route.query.titre!=undefined && this.$route.query.id!=undefined){
-      this.titre = this.$route.query.titre;
-      this.tags = this.$route.query.tags;
-      this.id = this.$route.query.id;
-      axios.get('channels/'+this.id+'/posts')
-      .then((response)=>{
-        /*if(response.data.length==0){
         this.$router.push('/');
-      }*/
+      }
 
-      this.messages = response.data;
-    })
-    .catch((error)=>{
-      console.log(error);
-    })
-  }else{
-    this.$router.push('/');
+    },
   }
-
-},
-}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.panelConv{
-  padding-bottom: 3%;
-}
+  .nomMember{
+    margin-right: 1%;
+  }
+
+  .panelConv{
+    padding-bottom: 3%;
+  }
   .messageBox{
     overflow: auto;
   }

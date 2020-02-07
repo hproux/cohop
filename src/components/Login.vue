@@ -15,12 +15,6 @@
                   <input type="password" v-model='password' placeholder="*******" class="input" name="password" required>
                 </div>
                 <div class="field">
-                  <label for="checkbox" class="checkbox">
-                    <input id="checkbox" type="checkbox">
-                    Remember me
-                  </label>
-                </div>
-                <div class="field">
                   <button class="button is-success">
                     Login
                   </button>
@@ -44,6 +38,9 @@ export default {
   props: {
     msg: String
   },
+  created:function(){
+    this.$store.commit('disconnect');
+  },
   data() {
     return {
       email : null,
@@ -58,7 +55,6 @@ export default {
           password : this.password
         })
         .then((response)=>{
-          console.log(response)
           this.$store.commit("setToken",response.data.token)
           this.$store.commit("setId",response.data.member.id)
           this.$store.commit("changeConnectionState")

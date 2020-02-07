@@ -54,7 +54,6 @@ export default {
   },
   methods:{
     voirConversation: function(param){
-      console.log(param)
       this.$router.push({ name: 'ConvDetail', query: { titre: param.topic, id : param.id, tags : param.label}})
     },
     creerConversation: function(){
