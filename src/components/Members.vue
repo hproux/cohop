@@ -3,22 +3,17 @@
     <Nav></Nav>
     <div class="">
       <h1>Membres ({{members.length}} membres)</h1>
-      <table class="table">
-        <thead>
-          <tr>
-            <th>Membre</th>
-            <th>Email</th>
-            <th>Supprimer</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="member in members">
-            <td>{{member.fullname}}</td>
-            <td>{{member.email}}</td>
-            <td><a @click="deleteMember(member)">🗑</a></td>
-          </tr>
-        </tbody>
-      </table>
+      <div id="listMembers">
+        <article class="conversations panel is-info">
+          <p class="panel-heading">Membres</p>
+
+          <p v-for="member in members" class="panel-block">
+            <img :src="'https://api.adorable.io/avatars/48/'+member.email">
+            <router-link class="content" :to="{ name: 'member', params: {id : member.id} }">{{member.fullname}} {{member.email}}</router-link>
+            <a class="trash" @click="deleteMember(member)">🗑</a>
+          </p>
+        </article>
+      </div>
     </div>
   </div>
 </template>
@@ -37,10 +32,7 @@ export default {
     deleteMember : function(member){
       axios.delete("members/"+member.id)
       .then((response)=>{
-        axios.get('members')
-        .then((response)=>{
-          this.members = response.data
-        })
+        this.$store.commit("loadMembers");
       })
       .catch((error)=>{
         console.log(error)
@@ -54,14 +46,7 @@ export default {
   },
   created: function(){
     this.$store.commit("loadMembers");
-    axios.get('members')
-    .then((response)=>{
-      this.members = response.data
-    })
-    .catch((error)=>{
-      alert("L'adresse mail et le mot de passe ne correspondent pas");
-      console.log(error);
-    })
+    this.members = this.$store.state.members
   },
 }
 </script>
@@ -70,5 +55,17 @@ export default {
 <style scoped>
   .table-container{
     margin-left: 2%;
+  }
+  .conversations{
+    margin-left:2%;
+    margin-right:2%;
+  }
+  .trash{
+    margin-right: 1%;
+    margin-left: auto;
+  }
+  .content{
+    margin-top: 1%;
+    margin-left: 1%;
   }
 </style>

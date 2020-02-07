@@ -5,6 +5,7 @@ import Register from '../components/Register.vue'
 import Members from '../components/Members.vue'
 import Conversations from '../components/Conversations.vue'
 import ConvDetail from '../components/ConvDetail.vue'
+import MemberDetails from '../components/MemberDetails.vue'
 import store from '../store'
 
 Vue.use(VueRouter)
@@ -75,6 +76,19 @@ const routes = [
       }
     }
   },
+  {
+    path: '/members/:id',
+    name: 'member',
+    component : MemberDetails,
+    beforeEnter : function(to,from,next) {
+      if(store.state.isLogged){
+        next()
+      }else{
+        next({name : "login"})
+      }
+    }
+  },
+
 
 ]
 
