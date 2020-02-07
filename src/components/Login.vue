@@ -55,6 +55,7 @@ export default {
           password : this.password
         })
         .then((response)=>{
+          this.$store.commit("setIdMember",response.data.member.id)
           this.$store.commit("setToken",response.data.token)
           this.$store.commit("setId",response.data.member.id)
           this.$store.commit("changeConnectionState")

@@ -16,10 +16,16 @@
         </div>
         <a v-for="message in messages" class="panel-block messageBox">
           <p class="nomMember tag is-light">{{getName(message)}}</p>{{message.message}}
-          <button @click="afficherModal(message)" class="button is-warning is-small is-rounded is-outlined">
+          <button v-if="isOwner(message)" @click="afficherModal(message)" class="button is-warning is-small is-rounded is-outlined">
             <span>Modifier</span>
           </button>
-          <button @click="supprimerMessage(message)" class="button is-danger is-small is-rounded is-outlined">
+          <button v-else disabled class="button is-warning is-small is-rounded is-outlined">
+            <span>Modifier</span>
+          </button>
+          <button v-if="isOwner(message)" @click="supprimerMessage(message)" class="button is-danger is-small is-rounded is-outlined">
+            <span>Supprimer</span>
+          </button>
+          <button v-else disabled class="button is-danger is-small is-rounded is-outlined">
             <span>Supprimer</span>
           </button>
         </a>
@@ -87,6 +93,13 @@
       }
     },
     methods:{
+      isOwner:function(member){
+        if(member.member_id==this.$store.state.idMember){
+          return true;
+        }else {
+          return false;
+        }
+      },
       afficherModalConversation : function(){
         this.isModalModifShow = true;
       },

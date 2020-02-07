@@ -16,9 +16,13 @@ export default new Vuex.Store({
     id : null,
     token : null,
     isLogged : false,
+    idMember : null,
     members: [],
   },
   mutations: {
+    setIdMember(state, idMember){
+      state.idMember = idMember;
+    },
     disconnect(state){
       state.id = null;
       state.token = null;
