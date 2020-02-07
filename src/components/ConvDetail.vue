@@ -16,7 +16,7 @@
         </div>
         <a v-for="message in messages" class="panel-block messageBox">
           <router-link :to="{ name: 'member', params: {id:message.member_id}}"><p class="nomMember tag is-light">{{getName(message)}}</p></router-link>
-          {{message.message}}
+          <p class="messageMarginLeft">{{message.message}}</p>
           <button v-if="isOwner(message)" @click="afficherModal(message)" class="button is-warning is-small is-rounded is-outlined">
             <span>Modifier</span>
           </button>
@@ -94,9 +94,6 @@
       }
     },
     methods:{
-      seeMemberProfile:function(memberId){
-        this.$router.push('/members/'+memberId);
-      },
       isOwner:function(member){
         if(member.member_id==this.$store.state.idMember){
           return true;
@@ -245,6 +242,10 @@
   .panelConv{
     padding-bottom: 2%;
   }
+  .messageMarginLeft{
+    margin-left:1%;
+  }
+
   .messageBox{
     overflow: auto;
   }
