@@ -53,6 +53,7 @@ export default {
     }
   },
   created: function(){
+    this.$store.commit("loadMembers");
     axios.get('members')
     .then((response)=>{
       this.members = response.data

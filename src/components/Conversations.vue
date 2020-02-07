@@ -69,7 +69,9 @@ export default {
         .then((response)=>{
 			axios.get('channels')
 				.then((response)=>{
-				  this.conversations = response.data
+				  this.conversations = response.data;
+          this.tags = null;
+          this.titre = null;
 				})
 				.catch((error)=>{
 				  console.log(error);
@@ -90,6 +92,7 @@ export default {
     },
   },
   created: function(){
+    this.$store.commit("loadMembers");
     axios.get('channels')
     .then((response)=>{
       this.conversations = response.data

@@ -16,6 +16,7 @@ export default new Vuex.Store({
     id : null,
     token : null,
     isLogged : false,
+    members: [],
   },
   mutations: {
     disconnect(state){
@@ -31,6 +32,13 @@ export default new Vuex.Store({
     },
     changeConnectionState(state){
       state.isLogged = !state.isLogged
+    },
+    loadMembers(state){
+      axios.get('members').then((response)=>{
+        state.members = response.data;
+      }).catch((error)=>{
+        console.log(error);
+      })
     }
   },
   actions: {
