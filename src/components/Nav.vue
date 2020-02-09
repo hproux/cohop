@@ -53,7 +53,7 @@ export default {
       axios.delete('members/signout')
       .then((response)=>{
         this.$store.commit("disconnect")
-        this.$router.push('login')
+        this.$router.push('/login')
       })
       .catch((error)=>{
         console.log(error);

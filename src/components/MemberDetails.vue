@@ -19,7 +19,10 @@
 
     <div class="content">
     <h2>Historique des messages</h2>
-    <p>blablabla</p>
+      <div v-for="message in lastTenMessage">
+        <p>{{message.message}}, le {{message.formatedDate}}</p>
+      </div>
+
     </div>
   </div>
 </div>
@@ -41,13 +44,17 @@ export default {
       allMemberMessages : null,
       allConversations : null,
       allMessages : [],
+      lastTenMessage : null,
       member : null,
+      increment : null,
     }
   },
   created: function(){
     this.allMessages = [];
     this.allConversations = [];
     this.allMemberMessages = [];
+    this.lastTenMessage = [];
+    this.increment = 0;
     this.$store.commit("loadMembers");
     this.member = this.$store.state.members.filter(obj =>{
       return obj.id === this.$route.params.id;
@@ -60,25 +67,54 @@ export default {
       this.allConversations = response.data;
       //Chargement de tous les messages
       this.allConversations.forEach(convActu =>{
+
         axios.get('channels/'+convActu.id+'/posts')
         .then((response)=>{
           this.allMessages.push(response.data);
-          this.allMessages.forEach(objActu =>{
-            //Chargement des tous les messages de l'utilisateur
-            objActu.forEach(msgActu=>{
-              this.allMessages.push(msgActu.message);
+          this.increment+=1;
+          if(this.increment==this.allConversations.length){
+            this.allMessages.forEach(objActu =>{
+              objActu.forEach(msgActu=>{
+                this.allMemberMessages.push(
+                        {"channel_id":msgActu.channel_id,
+                          "modified_at":msgActu.modified_at,
+                          "member_id":msgActu.member_id,
+                          "message":msgActu.message,
+                          "created_at":new Date(msgActu.created_at),
+                          "formatedDate":new Date(msgActu.created_at).toLocaleDateString()+" à "+new Date(msgActu.created_at).getHours()+"h"+this.minutes_with_leading_zeros(new Date(msgActu.created_at).getMinutes())});
+              })
             })
-          })
+            this.UserLastMessages();
+          }
         })
         .catch((error)=>{
           console.log(error);
         })
       });
-      console.log(this.allMessages);
     })
     .catch((error)=>{
       console.log(error);
     })
+  },
+  methods:{
+    minutes_with_leading_zeros:function(dt)
+    {
+      return (dt < 10 ? '0' : '') + dt;
+    },
+
+    UserLastMessages:function(){
+      //Recuperation des messages de l'utilisateur courant
+      this.lastTenMessage = this.allMemberMessages.filter((msg)=>{
+        return msg.member_id===this.member.id;
+      })
+      this.lastTenMessage = this.lastTenMessage.sort((a, b) => {
+        a = new Date(a.created_at);
+        b = new Date(b.created_at);
+        return a>b ? -1 : a<b ? 1 : 0;
+      });
+
+      this.lastTenMessage = this.lastTenMessage.slice(0,10);
+    }
   },
 }
 </script>

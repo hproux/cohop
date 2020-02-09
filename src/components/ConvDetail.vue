@@ -110,7 +110,6 @@
           topic : this.titre,
         })
         .then((response)=>{
-          console.log(response)
           this.isModalModifShow = false
         })
         .catch((error)=>{
@@ -218,7 +217,6 @@
         this.id = this.$route.query.id;
         axios.get('channels/'+this.id+'/posts')
         .then((response)=>{
-          console.log(response);
           this.messages = response.data;
         })
         .catch((error)=>{
