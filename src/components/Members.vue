@@ -30,9 +30,16 @@ export default {
   },
   methods:{
     deleteMember(member){
+      if (!confirm("Voulez-vous vraiment supprimer cet utilisateur?")) {
+        return;
+      }
       axios.delete("members/"+member.id)
       .then((response)=>{
         this.$store.commit("loadMembers");
+        this.members = this.$store.state.members;
+        this.members = this.members.filter(function (obj) {
+          return obj.id !== member.id;
+        });
       })
       .catch((error)=>{
         console.log(error)
