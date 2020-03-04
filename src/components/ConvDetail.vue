@@ -60,8 +60,8 @@
           <button @click="fermerModalModif()" class="delete" aria-label="close"></button>
         </header>
         <section class="modal-card-body">
-          <input @keyup.enter="modifConversation()" type="text" v-model='titre' name="titre" placeholder="Titre..." class="titre input" required>
-          <input @keyup.enter="modifConversation()" type="text" v-model='tags' name="tags" placeholder="Tags..." class="input" required>
+          <input @keyup.enter="modifConversation()" type="text" v-model='titreModif' name="titre" placeholder="Titre..." class="titre input" required>
+          <input @keyup.enter="modifConversation()" type="text" v-model='tagsModif' name="tags" placeholder="Tags..." class="input" required>
         </section>
         <footer class="modal-card-foot">
           <button @click="modifConversation()" class="button is-success">Modifier la conversation</button>
@@ -83,6 +83,8 @@
     data() {
       return {
         titre : null,
+        titreModif: null,
+        tagsModif : null,
         tags : [],
         id : null,
         messages : [],
@@ -102,12 +104,16 @@
         }
       },
       afficherModalConversation(){
+        this.tagsModif = this.tags.join(' ');
+        this.titreModif = this.titre;
         this.isModalModifShow = true;
       },
       modifConversation(){
+        this.titre = this.titreModif;
+        this.tags = this.tagsModif.split(" ");
         axios.put('channels/'+this.id,{
-          label : this.tags,
-          topic : this.titre,
+          label : this.tagsModif,
+          topic : this.titreModif,
         })
         .then((response)=>{
           this.isModalModifShow = false
