@@ -8,15 +8,15 @@
               <form @submit.prevent="checkLogin" class="box">
                 <div class="field">
                   <label for="" class="label">Email</label>
-                  <input type="email" v-model='email' name="email" placeholder="e.g. bobsmith@gmail.com" class="input" required>
+                  <input type="email" v-model='email' name="email" placeholder="bobsmith@gmail.com" class="input" required>
                 </div>
                 <div class="field">
-                  <label for="" class="label">Password</label>
+                  <label for="" class="label">Mot de passe</label>
                   <input type="password" v-model='password' placeholder="*******" class="input" name="password" required>
                 </div>
                 <div class="field">
                   <button class="button is-success">
-                    Login
+                    Se connecter
                   </button>
                   <div class="register">
                     <a href="/register">S'enregistrer</a>

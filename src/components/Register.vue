@@ -2,29 +2,29 @@
   <div id="register">
     <div class="section">
       <div class="container">
-        <div class="title">Sign Up</div>
-        <div class="subtitle">With Your Email</div>
+        <div class="title">Créer un compte</div>
+        <div class="subtitle">Avec votre e-mail</div>
         <form id="register-form" @submit.prevent="checkForm">
           <div class="field">
             <label class="label" for="email">Email</label>
             <input required class="input" type="email" placeholder="Email" v-model='email' name="email"/>
             <div class="columns row-one">
               <div class="column">
-                <label class="label" for="fullName">Full Name</label>
+                <label class="label" for="fullName">Nom complet</label>
                 <div class="control">
-                  <input required class="input" type="text" placeholder="Full Name" v-model='fullname' name="fullName"/>
+                  <input required class="input" type="text" placeholder="Nom complet" v-model='fullname' name="fullName"/>
                 </div>
               </div>
             </div>
             <div class="columns">
               <div class="column">
-                <label class="label" for="password">Password</label>
-                <input required class="input" type="password" placeholder="Password" v-model='password' name="password"/>
+                <label class="label" for="password">Mot de passe</label>
+                <input required class="input" type="password" placeholder="Mot de passe" v-model='password' name="password"/>
               </div>
             </div>
             <div class="field is-grouped">
               <div class="control">
-                <button class="buttonRegister button is-primary is-medium" type="submit">Register</button>
+                <button class="buttonRegister button is-primary is-medium" type="submit">S'enregistrer</button>
               </div>
               <a class="loginRef" href="/">Vous avez déjà un compte ? Connectez-vous</a>
             </div>
