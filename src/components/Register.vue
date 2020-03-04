@@ -1,10 +1,13 @@
 <template>
   <div id="register">
+    <section class="hero is-primary is-fullheight">
     <div class="section">
       <div class="container">
         <div class="title">Créer un compte</div>
         <div class="subtitle">Avec votre e-mail</div>
-        <form id="register-form" @submit.prevent="checkForm">
+        <div class="columns is-centered">
+        <div class="column is-7-tablet is-6-desktop is-5-widescreen">
+        <form class="box" id="register-form" @submit.prevent="checkForm">
           <div class="field">
             <label class="label" for="email">Email</label>
             <input required class="input" type="email" placeholder="Email" v-model='email' name="email"/>
@@ -30,8 +33,11 @@
             </div>
           </div>
         </form>
+        </div>
+        </div>
       </div>
     </div>
+    </section>
   </div>
 </template>
 
@@ -83,6 +89,11 @@ export default {
     padding-top: 0 !important;
     padding-bottom: 0 !important;
   }
+
+  .box{
+    background-color:white;
+  }
+
   .row-one {
     padding-top: 13px;
   }

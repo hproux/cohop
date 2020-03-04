@@ -1,10 +1,12 @@
 <template>
   <div class="login">
+
     <section class="hero is-primary is-fullheight">
       <div class="hero-body">
         <div class="container">
+          <h1 class="title is-center is-1">CoHop - Connexion</h1>
           <div class="columns is-centered">
-            <div class="column is-5-tablet is-4-desktop is-3-widescreen">
+            <div class="column is-6-tablet is-5-desktop is-4-widescreen">
               <form @submit.prevent="checkLogin" class="box">
                 <div class="field">
                   <label for="email" class="label">Email</label>
@@ -77,7 +79,12 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style>
+<style scoped>
+  .title{
+    text-align: center;
+     margin-top: 0%;
+  }
+
 .register{
   margin-top:5%;
 }
