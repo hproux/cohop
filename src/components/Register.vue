@@ -26,7 +26,7 @@
               <div class="control">
                 <button class="buttonRegister button is-primary is-medium" type="submit">S'enregistrer</button>
               </div>
-              <a class="loginRef" href="/">Vous avez déjà un compte ? Connectez-vous</a>
+              <a class="loginRef" @click="redirectLogin">Vous avez déjà un compte ? Connectez-vous</a>
             </div>
           </div>
         </form>
@@ -46,6 +46,9 @@ export default {
     }
   },
   methods:{
+    redirectLogin(){
+      this.$router.push('/login');
+    },
     checkForm() {
       if (this.email && this.password && this.fullname) {
         axios.post('members',{

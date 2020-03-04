@@ -36,7 +36,7 @@ const routes = [
       if(!store.state.isLogged){
         next()
       }else{
-        next({name : "login"})
+        next(false)
       }
     }
   },

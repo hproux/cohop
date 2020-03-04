@@ -19,7 +19,7 @@
                     Se connecter
                   </button>
                   <div class="register">
-                    <a href="/register">S'enregistrer</a>
+                    <a @click="redirectRegister">S'enregistrer</a>
                   </div>
                 </div>
               </form>
@@ -48,6 +48,9 @@ export default {
     }
   },
   methods:{
+    redirectRegister(){
+      this.$router.push('/register');
+    },
     checkLogin(){
       if (this.email && this.password) {
         axios.post('members/signin',{
