@@ -35,11 +35,11 @@ export default {
       }
       axios.delete("members/"+member.id)
       .then((response)=>{
-        this.$store.commit("loadMembers");
-        this.members = this.$store.state.members;
+
         this.members = this.members.filter(function (obj) {
           return obj.id !== member.id;
         });
+        this.$store.commit("replaceMembers", this.members);
       })
       .catch((error)=>{
         console.log(error)

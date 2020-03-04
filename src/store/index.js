@@ -43,6 +43,9 @@ export default new Vuex.Store({
       }).catch((error)=>{
         console.log(error);
       })
+    },
+    replaceMembers(state,members){
+      state.members = members;
     }
   },
   actions: {
