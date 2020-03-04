@@ -10,7 +10,7 @@
           <p v-for="member in members" class="panel-block">
             <img :src="'https://api.adorable.io/avatars/48/'+member.email">
             <router-link class="content" :to="{ name: 'member', params: {id : member.id} }">{{member.fullname}} {{member.email}}</router-link>
-            <a class="trash" @click="deleteMember(member)">🗑</a>
+            <a v-if="currentIdMember != member.id" class="trash" @click="deleteMember(member)">🗑</a>
           </p>
         </article>
       </div>
@@ -42,9 +42,11 @@ export default {
   data(){
     return {
       members : [],
+      currentIdMember : null,
     }
   },
   created: function(){
+    this.currentIdMember = this.$store.state.idMember;
     this.$store.commit("loadMembers");
     this.members = this.$store.state.members
   },
