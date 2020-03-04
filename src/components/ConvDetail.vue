@@ -6,6 +6,7 @@
         <article class="conversations panel is-info">
           <p class="panel-heading panelConv">
             {{titre}}
+            <span v-for="tag in tags" class="tag is-light">{{tag}}</span>
             <img src="../assets/edit.png" title='Modifier la conversation' class="modifConv is-pulled-right" @click="afficherModalConversation()"/>
             <img src="../assets/trash.png" title='Supprimer la conversation' class="supprConv is-pulled-right" @click="supprimerConversation()"/>
           </p>
@@ -82,7 +83,7 @@
     data() {
       return {
         titre : null,
-        tags : null,
+        tags : [],
         id : null,
         messages : [],
         sendMessage : null,
@@ -210,10 +211,16 @@
       },
     },
     created(){
-      if(this.$route.query.titre!=undefined && this.$route.query.id!=undefined){
-        this.titre = this.$route.query.titre;
-        this.tags = this.$route.query.tags;
+      if(this.$route.query.id!=undefined){
         this.id = this.$route.query.id;
+        axios.get('channels')
+                .then((response) => {
+                  this.titre = response.data.find(element => element.id == this.id).topic;
+                  this.tags = response.data.find(element => element.id == this.id).label.split(" ");
+                })
+                .catch((error) => {
+                  console.log(error);
+                })
         axios.get('channels/'+this.id+'/posts')
         .then((response)=>{
           this.messages = response.data;
@@ -232,6 +239,11 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
+  .tag{
+    margin-left:1%;
+  }
+
   .nomMember{
     margin-right: 5%;
   }

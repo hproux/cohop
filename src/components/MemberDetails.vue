@@ -95,7 +95,7 @@ export default {
   },
   methods:{
     redirectMessage(message) {
-      this.$router.push({name: 'ConvDetail', query: {titre: message.channel_id, id: message.channel_id, tags: message.channel_id}})
+      this.$router.push({name: 'ConvDetail', query: {id: message.channel_id}})
     },
 
     minutes_with_leading_zeros(dt)//permet d'afficher le 0 des minutes si <= à 9
