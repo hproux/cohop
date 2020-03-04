@@ -29,7 +29,7 @@ export default {
     msg: String
   },
   methods:{
-    deleteMember : function(member){
+    deleteMember(member){
       axios.delete("members/"+member.id)
       .then((response)=>{
         this.$store.commit("loadMembers");
@@ -45,7 +45,7 @@ export default {
       currentIdMember : null,
     }
   },
-  created: function(){
+  created(){
     this.currentIdMember = this.$store.state.idMember;
     this.$store.commit("loadMembers");
     this.members = this.$store.state.members

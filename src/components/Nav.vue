@@ -49,7 +49,7 @@ export default {
     }
   },
   methods:{
-    Logout: function(){
+    Logout(){
       axios.delete('members/signout')
       .then((response)=>{
         this.$store.commit("disconnect")

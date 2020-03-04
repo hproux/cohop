@@ -53,10 +53,10 @@ export default {
     }
   },
   methods:{
-    voirConversation: function(param){
+    voirConversation(param){
       this.$router.push({ name: 'ConvDetail', query: { titre: param.topic, id : param.id, tags : param.label}})
     },
-    creerConversation: function(){
+    creerConversation(){
       if(this.tags != null && this.titre !=null)
       {
         this.isModalShow = false
@@ -83,14 +83,14 @@ export default {
         alert('Les champs ne sont pas correctement remplis!')
       }
     },
-    afficherAjoutConv: function(){
+    afficherAjoutConv(){
       this.isModalShow = true
     },
-    fermerModal: function(){
+    fermerModal(){
       this.isModalShow = false
     },
   },
-  created: function(){
+  created(){
     this.$store.commit("loadMembers");
     axios.get('channels')
     .then((response)=>{

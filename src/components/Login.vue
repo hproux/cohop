@@ -7,11 +7,11 @@
             <div class="column is-5-tablet is-4-desktop is-3-widescreen">
               <form @submit.prevent="checkLogin" class="box">
                 <div class="field">
-                  <label for="" class="label">Email</label>
+                  <label for="email" class="label">Email</label>
                   <input type="email" v-model='email' name="email" placeholder="bobsmith@gmail.com" class="input" required>
                 </div>
                 <div class="field">
-                  <label for="" class="label">Mot de passe</label>
+                  <label for="password" class="label">Mot de passe</label>
                   <input type="password" v-model='password' placeholder="*******" class="input" name="password" required>
                 </div>
                 <div class="field">
@@ -38,7 +38,7 @@ export default {
   props: {
     msg: String
   },
-  created:function(){
+  created(){
     this.$store.commit('disconnect');
   },
   data() {

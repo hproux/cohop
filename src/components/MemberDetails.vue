@@ -20,7 +20,7 @@
     <div class="content">
     <h2>Historique des messages</h2>
       <div v-for="message in lastTenMessage">
-        <p>{{message.message}}, le {{message.formatedDate}}</p>
+        <a @click="redirectMessage(message)" class="messages button is-link">{{message.message}}, le {{message.formatedDate}}</a>
       </div>
 
     </div>
@@ -37,8 +37,6 @@ export default {
     Nav,
   },
   name: 'MemberDetails',
-  methods:{
-  },
   data(){
     return {
       allMemberMessages : null,
@@ -49,7 +47,7 @@ export default {
       increment : null,
     }
   },
-  created: function(){
+  created(){
     this.allMessages = [];
     this.allConversations = [];
     this.allMemberMessages = [];
@@ -67,12 +65,11 @@ export default {
       this.allConversations = response.data;
       //Chargement de tous les messages
       this.allConversations.forEach(convActu =>{
-
         axios.get('channels/'+convActu.id+'/posts')
         .then((response)=>{
           this.allMessages.push(response.data);
           this.increment+=1;
-          if(this.increment==this.allConversations.length){
+          if(this.increment == this.allConversations.length){
             this.allMessages.forEach(objActu =>{
               objActu.forEach(msgActu=>{
                 this.allMemberMessages.push(
@@ -97,23 +94,27 @@ export default {
     })
   },
   methods:{
-    minutes_with_leading_zeros:function(dt)
+    redirectMessage(message) {
+      this.$router.push({name: 'ConvDetail', query: {titre: message.channel_id, id: message.channel_id, tags: message.channel_id}})
+    },
+
+    minutes_with_leading_zeros(dt)//permet d'afficher le 0 des minutes si <= à 9
     {
       return (dt < 10 ? '0' : '') + dt;
     },
 
-    UserLastMessages:function(){
+    UserLastMessages(){
       //Recuperation des messages de l'utilisateur courant
       this.lastTenMessage = this.allMemberMessages.filter((msg)=>{
         return msg.member_id===this.member.id;
       })
-      this.lastTenMessage = this.lastTenMessage.sort((a, b) => {
+      this.lastTenMessage = this.lastTenMessage.sort((a, b) => {//tri des messages par date
         a = new Date(a.created_at);
         b = new Date(b.created_at);
         return a>b ? -1 : a<b ? 1 : 0;
       });
 
-      this.lastTenMessage = this.lastTenMessage.slice(0,10);
+      this.lastTenMessage = this.lastTenMessage.slice(0,10);//seulement les 10 premiers messages
     }
   },
 }
@@ -124,6 +125,11 @@ export default {
   .table-container{
     margin-left: 2%;
   }
+
+  .messages{
+    margin-top:1%;
+  }
+
   .member{
     margin-left:2%;
     margin-right:2%;

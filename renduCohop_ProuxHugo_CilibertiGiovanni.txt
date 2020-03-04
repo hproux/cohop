@@ -3,4 +3,4 @@ Proux Hugo
 
 Dépôt Git: https://github.com/hproux/cohop/
 
-Url Netlify : https://cohop.netlify.com/
+Url Netlify : https://cohophpgc.netlify.com/

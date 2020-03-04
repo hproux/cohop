@@ -12,7 +12,6 @@
           <div class="panel-block">
             <input name="sendMessage" v-model='sendMessage' class="input" type="text" @keyup.enter="envoyerMessage()" placeholder="Ecrire un message...">
             <button @click="envoyerMessage()" class="button is-link is-light">Envoyer</button>
-          </p>
         </div>
         <a v-for="message in messages" class="panel-block messageBox">
           <router-link :to="{ name: 'member', params: {id:message.member_id}}"><p class="nomMember tag is-light">{{getName(message)}}</p></router-link>
@@ -94,17 +93,17 @@
       }
     },
     methods:{
-      isOwner:function(member){
+      isOwner(member){
         if(member.member_id==this.$store.state.idMember){
           return true;
         }else {
           return false;
         }
       },
-      afficherModalConversation : function(){
+      afficherModalConversation(){
         this.isModalModifShow = true;
       },
-      modifConversation : function(){
+      modifConversation(){
         axios.put('channels/'+this.id,{
           label : this.tags,
           topic : this.titre,
@@ -116,7 +115,7 @@
           console.log(error);
         })
       },
-      supprimerConversation:function(){
+      supprimerConversation(){
         if ( !confirm( "Voulez-vous vraiment supprimer la conversation?" ) ) {
           return;
         }
@@ -128,7 +127,7 @@
           console.log(error);
         })
       },
-      modifierMessage : function(){
+      modifierMessage(){
         console.log(this.currentmessage);
         axios.put('channels/'+this.id+'/posts/'+this.currentmessage.id,{
           message : this.messageModif,
@@ -147,7 +146,7 @@
         })
         this.isModalShow = false;
       },
-      supprimerMessage:function(msg){
+      supprimerMessage(msg){
         if ( !confirm( "Voulez-vous vraiment supprimer ce message?" ) ) {
           return;
         }
@@ -167,7 +166,7 @@
           console.log(error);
         })
       },
-      envoyerMessage:function(){
+      envoyerMessage(){
         if(this.sendMessage != null){
           axios.post('channels/'+this.id+'/posts',{
             channel_id : this.id,
@@ -192,25 +191,25 @@
           alert('Aucun message inséré');
         }
       },
-      afficherModal:function(msg){
+      afficherModal(msg){
         this.isModalShow = true;
         this.currentmessage = msg;
         this.messageModif = this.currentmessage.message;
       },
-      afficherModalModif:function(){
+      afficherModalModif(){
         this.isModalModifShow = true;
       },
-      fermerModal: function(){
+      fermerModal(){
         this.isModalShow = false
       },
-      fermerModalModif: function(){
+      fermerModalModif(){
         this.isModalModifShow = false
       },
-      getName:function(memberId){
+      getName(memberId){
           return this.$store.state.members.find(elem => elem.id === memberId.member_id).fullname;
       },
     },
-    created: function(){
+    created(){
       if(this.$route.query.titre!=undefined && this.$route.query.id!=undefined){
         this.titre = this.$route.query.titre;
         this.tags = this.$route.query.tags;
